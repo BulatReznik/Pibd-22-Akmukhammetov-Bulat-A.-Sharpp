@@ -11,6 +11,6 @@ namespace dump_truck_var_2
         Up,
         Down,
         Left,
-        Right
+        Right 
     }
 }
