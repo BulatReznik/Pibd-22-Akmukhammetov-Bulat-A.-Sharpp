@@ -89,7 +89,6 @@ namespace dump_truck_var_2
             return null;
 
         }
-
         /// <summary>
         /// Метод отрисовки парковки
         /// </summary>
