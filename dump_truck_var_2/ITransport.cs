@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dump_truck_var_2
 {
-    interface ITransport
+    public interface ITransport
     {
         /// <summary>
         /// Установка позиции

@@ -21,6 +21,15 @@ namespace dump_truck_var_2
             InitializeComponent();
         }
         /// <summary>
+        /// Передача машины на форму
+        /// </summary>
+        /// <param name="dumpcar"></param>
+        public void SetDumpCar(ITransport dumpcar)
+        {
+            this.dumpcar = dumpcar;
+            Draw();
+        }
+        /// <summary>
         /// Метод отрисовки грузовика
         /// </summary>
         private void Draw()
@@ -85,10 +94,5 @@ namespace dump_truck_var_2
                 MessageBox.Show("Создайте самосвал или грузовик!");
             }
         }
-        private void FormDumpCar_Load(object sender, EventArgs e){}
-        private void button1_Click(object sender, EventArgs e){}
-        private void button3_Click(object sender, EventArgs e){}
-        private void button5_Click(object sender, EventArgs e){}     
-        private void button3_Click_1(object sender, EventArgs e){}
     }
 }

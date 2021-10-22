@@ -46,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormParkingForTrucks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParkingForTrucks.Designer.cs">
+      <DependentUpon>FormParkingForTrucks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ParkingForTrucks.cs" />
     <Compile Include="TruckCar.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="DumpCar.cs" />
@@ -61,6 +68,9 @@
     <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="FormDumpCar.resx">
       <DependentUpon>FormDumpCar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParkingForTrucks.resx">
+      <DependentUpon>FormParkingForTrucks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

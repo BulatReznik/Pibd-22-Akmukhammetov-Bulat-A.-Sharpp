@@ -27,25 +27,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonCreateCar = new System.Windows.Forms.Button();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonRight = new System.Windows.Forms.Button();
             this.buttonLeft = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.pictureBoxDumpCar = new System.Windows.Forms.PictureBox();
-            this.buttonCreateDumpCar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDumpCar)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonCreateCar
-            // 
-            this.buttonCreateCar.Location = new System.Drawing.Point(1077, 794);
-            this.buttonCreateCar.Name = "buttonCreateCar";
-            this.buttonCreateCar.Size = new System.Drawing.Size(129, 36);
-            this.buttonCreateCar.TabIndex = 1;
-            this.buttonCreateCar.Text = "Создать Грузовик";
-            this.buttonCreateCar.UseVisualStyleBackColor = true;
-            this.buttonCreateCar.Click += new System.EventHandler(this.buttonCreateCarTruck_Click);
             // 
             // buttonDown
             // 
@@ -105,46 +93,29 @@
             this.pictureBoxDumpCar.TabIndex = 0;
             this.pictureBoxDumpCar.TabStop = false;
             // 
-            // buttonCreateDumpCar
-            // 
-            this.buttonCreateDumpCar.Location = new System.Drawing.Point(1212, 794);
-            this.buttonCreateDumpCar.Name = "buttonCreateDumpCar";
-            this.buttonCreateDumpCar.Size = new System.Drawing.Size(129, 36);
-            this.buttonCreateDumpCar.TabIndex = 8;
-            this.buttonCreateDumpCar.Text = "Создать Самосвал";
-            this.buttonCreateDumpCar.UseVisualStyleBackColor = true;
-            this.buttonCreateDumpCar.Click += new System.EventHandler(this.buttonCreateDumpCar_Click);
-            // 
             // FormDumpCar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 836);
-            this.Controls.Add(this.buttonCreateDumpCar);
             this.Controls.Add(this.buttonDown);
             this.Controls.Add(this.buttonRight);
             this.Controls.Add(this.buttonLeft);
             this.Controls.Add(this.buttonUp);
-            this.Controls.Add(this.buttonCreateCar);
             this.Controls.Add(this.pictureBoxDumpCar);
             this.Name = "FormDumpCar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.FormDumpCar_Load);
+            this.Text = "Самосвал";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDumpCar)).EndInit();
             this.ResumeLayout(false);
 
         }
-
         #endregion
-
         private System.Windows.Forms.PictureBox pictureBoxDumpCar;
-        private System.Windows.Forms.Button buttonCreateCar;
         private System.Windows.Forms.Button buttonUp;
         private System.Windows.Forms.Button buttonLeft;
         private System.Windows.Forms.Button buttonRight;
         private System.Windows.Forms.Button buttonDown;
-        private System.Windows.Forms.Button buttonCreateDumpCar;
     }
 }
 

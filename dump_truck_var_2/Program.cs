@@ -16,7 +16,7 @@ namespace dump_truck_var_2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormDumpCar());
+            Application.Run(new FormParkingForTrucks());
         }
     }
 }
