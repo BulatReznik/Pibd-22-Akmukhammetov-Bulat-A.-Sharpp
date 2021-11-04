@@ -15,14 +15,38 @@ namespace dump_truck_var_2
         /// <summary>
         /// Объект от класса-парковки
         /// </summary>
-        private readonly ParkingForTrucks<TruckCar> parking;
+        private readonly ParkingForTrucksCollection parkingForTrucksCollection;
 
         public FormParkingForTrucks()
         {
             InitializeComponent();
-            parking = new ParkingForTrucks<TruckCar>(pictureBoxParking.Width, pictureBoxParking.Height);
+            parkingForTrucksCollection = new ParkingForTrucksCollection(pictureBoxParking.Width, pictureBoxParking.Height);
             Draw();
         }
+
+        /// <summary>
+        /// Заполнение listBoxLevels
+        /// </summary>
+        private void ReloadParkingForTrucks()
+        {
+            int index = listBoxParkingForTrucks.SelectedIndex;
+            listBoxParkingForTrucks.Items.Clear();
+            for (int i = 0; i < parkingForTrucksCollection.Keys.Count; i++)
+            {
+                listBoxParkingForTrucks.Items.Add(parkingForTrucksCollection.Keys[i]);
+            }
+            if (listBoxParkingForTrucks.Items.Count > 0 && (index == -1 || index >=
+            listBoxParkingForTrucks.Items.Count))
+            {
+                listBoxParkingForTrucks.SelectedIndex = 0;
+            }
+            else if (listBoxParkingForTrucks.Items.Count > 0 && index > -1 && index <
+            listBoxParkingForTrucks.Items.Count)
+            {
+                listBoxParkingForTrucks.SelectedIndex = index;
+            }
+        }
+
         /// <summary>
         /// Метод отрисовки парковки
         /// </summary>
@@ -30,7 +54,10 @@ namespace dump_truck_var_2
         {
             Bitmap bmp = new Bitmap(pictureBoxParking.Width, pictureBoxParking.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            parking.Draw(gr);
+            if (listBoxParkingForTrucks.SelectedIndex > -1)
+            {
+                parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()].Draw(gr);
+            }
             pictureBoxParking.Image = bmp;
         }
         /// <summary>
@@ -44,7 +71,7 @@ namespace dump_truck_var_2
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 var truckcar = new TruckCar(100, 1000, dialog.Color);
-                if ((parking + truckcar) > -1)
+                if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] + truckcar) > -1)
                 {
                     Draw();
                 }
@@ -69,7 +96,7 @@ namespace dump_truck_var_2
                 {
                     var dumpcar = new DumpCar(100, 1000, dialog.Color, dialogDop.Color,
                    true, true);
-                    if ((parking + dumpcar)>-1)
+                    if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] + dumpcar)>-1)
                     {
                         Draw();
                     }
@@ -89,14 +116,47 @@ namespace dump_truck_var_2
         {
             if (maskedTextBoxPlace.Text != "")
             {
-                var car = parking - Convert.ToInt32(maskedTextBoxPlace.Text);
-                if (car != null)
+                var dumpcar = parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
+                if (dumpcar != null)
                 {
                     FormDumpCar form = new FormDumpCar();
-                    form.SetDumpCar(car);
+                    form.SetDumpCar(dumpcar);
                     form.ShowDialog();
                 }
                 Draw();
+            }
+        }
+
+        private void listBoxParkingForTrucks_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Draw();
+        }
+        /// <summary>
+        /// Добавить парковку
+        /// </summary>
+        private void buttonAddParkingForTrucks_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxNewParkingForTrucks.Text))
+            {
+                MessageBox.Show("Введите название парковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            parkingForTrucksCollection.AddParkingForTrucks(textBoxNewParkingForTrucks.Text);
+            ReloadParkingForTrucks();
+        }
+        /// <summary>
+        /// Удалить парковку
+        /// </summary>
+        private void buttonDelParkingForTrucks_Click(object sender, EventArgs e)
+        {
+            if (listBoxParkingForTrucks.SelectedIndex > -1)
+            {
+                if (MessageBox.Show($"Удалить парковку { listBoxParkingForTrucks.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    parkingForTrucksCollection.DelParkingForTrucks(listBoxParkingForTrucks.SelectedItem.ToString());
+                    ReloadParkingForTrucks();
+                }
+                Draw();                                                             
             }
         }
     }

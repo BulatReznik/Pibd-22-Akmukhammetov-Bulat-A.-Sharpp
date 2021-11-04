@@ -11,12 +11,16 @@ namespace dump_truck_var_2
     /// Параметризованный класс для хранения набора объектов от интерфейса ITransport
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ParkingForTrucks<T> where T : class, ITransport
+    class ParkingForTrucks<T> where T : class, ITransport
     {
-        /// <summary>
-        /// Массив объектов, которые храним
-        /// </summary>
-        private readonly T[] _places;
+        /// <summary> 
+        /// Список объектов, которые храним 
+        /// </summary> 
+        private readonly List<T> _places;
+        /// <summary> 
+        /// Максимальное количество мест на парковке 
+        /// </summary> 
+        private readonly int _maxCount;
         /// <summary>
         /// Ширина окна отрисовки
         /// </summary>
@@ -34,17 +38,28 @@ namespace dump_truck_var_2
         /// </summary>
         private readonly int _placeSizeHeight = 180;
         /// <summary>
+        /// Размер парковки (высота)
+        /// </summary>
+        private readonly int parkingWidth;
+        /// <summary>
+        /// Размер парковки (ширина)
+        /// </summary>
+        private readonly int parkingHeight;
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="picWidth">Рамзер парковки - ширина</param>
         /// <param name="picHeight">Рамзер парковки - высота</param>
         public ParkingForTrucks(int picWidth, int picHeight)
         {
+            parkingWidth = picWidth / _placeSizeWidth;
+            parkingHeight = picHeight / _placeSizeHeight;
             int width = picWidth / _placeSizeWidth;
             int height = picHeight / _placeSizeHeight;
-            _places = new T[width * height];
+            _maxCount = width * height;
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _places = new List<T>();
         }
         /// <summary>
         /// Перегрузка оператора сложения
@@ -55,17 +70,13 @@ namespace dump_truck_var_2
         /// <returns></returns>
         public static int operator +(ParkingForTrucks<T> p, T dumpcar)
         {
+            if (p._places.Count < p._maxCount)
             {
-                for (int i = 0; i < p._places.Length; i++)
-                {
-                    if (p._places[i] == null)
-                    {
-                        p._places[i] = dumpcar;
-                        p._places[i].SetPosition(25 + i % 5 * p._placeSizeWidth, i / 5 * p._placeSizeHeight + 35,
-                        p.pictureWidth, p.pictureHeight);
-                        return i;
-                    }
-                }
+                p._places.Add(dumpcar);
+                return p._places.Count - 1;
+            }
+            else
+            {
                 return -1;
             }
         }
@@ -77,17 +88,16 @@ namespace dump_truck_var_2
         /// <param name="index">Индекс места, с которого пытаемся извлечь объект</param /// <returns></returns>
         public static T operator -(ParkingForTrucks<T> p, int index)
         {
-            if (index < p._places.Length)
+            if (index > -1 && index < p._places.Count)
             {
-                if (p._places[index] != null)
-                {
-                    T dumpcar = p._places[index];
-                    p._places[index] = null;
-                    return dumpcar;
-                }
+                T bufTruckCar = p._places[index];
+                p._places.RemoveAt(index);
+                return bufTruckCar;
             }
-            return null;
-
+            else
+            {
+                return null;
+            }
         }
         /// <summary>
         /// Метод отрисовки парковки
@@ -96,8 +106,9 @@ namespace dump_truck_var_2
         public void Draw(Graphics g)
         {
             DrawMarking(g);
-            for (int i = 0; i < _places.Length; i++)
+            for (int i = 0; i < _places.Count; i++)
             {
+                _places[i].SetPosition(i % parkingWidth * _placeSizeWidth + 35, i / parkingWidth * _placeSizeHeight + 25 , pictureWidth, pictureHeight);
                 _places[i]?.DrawTransport(g);
             }
         }
@@ -113,7 +124,7 @@ namespace dump_truck_var_2
                 for (int j = 0; j < pictureHeight / _placeSizeHeight + 20; ++j)
                 {
                     g.DrawLine(pen, i * _placeSizeWidth + 5, j * _placeSizeHeight + 10,
-                       i * _placeSizeWidth + _placeSizeWidth / 2 , j * _placeSizeHeight + 10);
+                       i * _placeSizeWidth + _placeSizeWidth / 2, j * _placeSizeHeight + 10);
                 }
                 g.DrawLine(pen, i * _placeSizeWidth + 5, 10, i * _placeSizeWidth + 5,
                 (pictureHeight / _placeSizeHeight) * _placeSizeHeight + 10);
