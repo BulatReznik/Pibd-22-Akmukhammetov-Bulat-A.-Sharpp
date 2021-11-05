@@ -27,5 +27,10 @@ namespace dump_truck_var_2
         /// </summary>
         /// <param name="g"></param>
         void DrawTransport(Graphics g);
+        /// <summary>
+        /// Смена основного цвета
+        /// </summary>
+        /// <param name="color"></param>
+        void SetMainColor(Color color);
     }
 }

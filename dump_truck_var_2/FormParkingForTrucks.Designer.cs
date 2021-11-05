@@ -27,8 +27,6 @@
         private void InitializeComponent()
         {
             this.pictureBoxParking = new System.Windows.Forms.PictureBox();
-            this.buttonParkingTruck = new System.Windows.Forms.Button();
-            this.buttonParckingDumpCar = new System.Windows.Forms.Button();
             this.groupBoxTakeTruck = new System.Windows.Forms.GroupBox();
             this.buttonTake = new System.Windows.Forms.Button();
             this.maskedTextBoxPlace = new System.Windows.Forms.MaskedTextBox();
@@ -38,6 +36,7 @@
             this.buttonAddParkingForTrucks = new System.Windows.Forms.Button();
             this.buttonDelParkingForTrucks = new System.Windows.Forms.Button();
             this.textBoxNewParkingForTrucks = new System.Windows.Forms.TextBox();
+            this.buttonAddTruckCar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxParking)).BeginInit();
             this.groupBoxTakeTruck.SuspendLayout();
             this.SuspendLayout();
@@ -49,26 +48,6 @@
             this.pictureBoxParking.Size = new System.Drawing.Size(1203, 880);
             this.pictureBoxParking.TabIndex = 0;
             this.pictureBoxParking.TabStop = false;
-            // 
-            // buttonParkingTruck
-            // 
-            this.buttonParkingTruck.Location = new System.Drawing.Point(1209, 485);
-            this.buttonParkingTruck.Name = "buttonParkingTruck";
-            this.buttonParkingTruck.Size = new System.Drawing.Size(129, 36);
-            this.buttonParkingTruck.TabIndex = 2;
-            this.buttonParkingTruck.Text = "Припарковать Грузовик";
-            this.buttonParkingTruck.UseVisualStyleBackColor = true;
-            this.buttonParkingTruck.Click += new System.EventHandler(this.buttonParkingTruck_Click);
-            // 
-            // buttonParckingDumpCar
-            // 
-            this.buttonParckingDumpCar.Location = new System.Drawing.Point(1209, 527);
-            this.buttonParckingDumpCar.Name = "buttonParckingDumpCar";
-            this.buttonParckingDumpCar.Size = new System.Drawing.Size(129, 36);
-            this.buttonParckingDumpCar.TabIndex = 3;
-            this.buttonParckingDumpCar.Text = "Припарковать Самосвал";
-            this.buttonParckingDumpCar.UseVisualStyleBackColor = true;
-            this.buttonParckingDumpCar.Click += new System.EventHandler(this.buttonParckingDumpCar_Click);
             // 
             // groupBoxTakeTruck
             // 
@@ -157,19 +136,28 @@
             this.textBoxNewParkingForTrucks.Size = new System.Drawing.Size(130, 20);
             this.textBoxNewParkingForTrucks.TabIndex = 17;
             // 
+            // buttonAddTruckCar
+            // 
+            this.buttonAddTruckCar.Location = new System.Drawing.Point(1209, 525);
+            this.buttonAddTruckCar.Name = "buttonAddTruckCar";
+            this.buttonAddTruckCar.Size = new System.Drawing.Size(130, 38);
+            this.buttonAddTruckCar.TabIndex = 18;
+            this.buttonAddTruckCar.Text = "Припарковать грузовик";
+            this.buttonAddTruckCar.UseVisualStyleBackColor = true;
+            this.buttonAddTruckCar.Click += new System.EventHandler(this.buttonAddTruckCar_Click);
+            // 
             // FormParkingForTrucks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 836);
+            this.Controls.Add(this.buttonAddTruckCar);
             this.Controls.Add(this.textBoxNewParkingForTrucks);
             this.Controls.Add(this.buttonDelParkingForTrucks);
             this.Controls.Add(this.buttonAddParkingForTrucks);
             this.Controls.Add(this.listBoxParkingForTrucks);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBoxTakeTruck);
-            this.Controls.Add(this.buttonParckingDumpCar);
-            this.Controls.Add(this.buttonParkingTruck);
             this.Controls.Add(this.pictureBoxParking);
             this.Name = "FormParkingForTrucks";
             this.Text = "Парковка";
@@ -182,8 +170,6 @@
         }
         #endregion
         private System.Windows.Forms.PictureBox pictureBoxParking;
-        private System.Windows.Forms.Button buttonParkingTruck;
-        private System.Windows.Forms.Button buttonParckingDumpCar;
         private System.Windows.Forms.GroupBox groupBoxTakeTruck;
         private System.Windows.Forms.Button buttonTake;
         private System.Windows.Forms.MaskedTextBox maskedTextBoxPlace;
@@ -193,5 +179,6 @@
         private System.Windows.Forms.Button buttonAddParkingForTrucks;
         private System.Windows.Forms.Button buttonDelParkingForTrucks;
         private System.Windows.Forms.TextBox textBoxNewParkingForTrucks;
+        private System.Windows.Forms.Button buttonAddTruckCar;
     }
 }

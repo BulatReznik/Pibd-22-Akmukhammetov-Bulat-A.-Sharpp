@@ -35,13 +35,11 @@ namespace dump_truck_var_2
             {
                 listBoxParkingForTrucks.Items.Add(parkingForTrucksCollection.Keys[i]);
             }
-            if (listBoxParkingForTrucks.Items.Count > 0 && (index == -1 || index >=
-            listBoxParkingForTrucks.Items.Count))
+            if (listBoxParkingForTrucks.Items.Count > 0 && (index == -1 || index >= listBoxParkingForTrucks.Items.Count))
             {
                 listBoxParkingForTrucks.SelectedIndex = 0;
             }
-            else if (listBoxParkingForTrucks.Items.Count > 0 && index > -1 && index <
-            listBoxParkingForTrucks.Items.Count)
+            else if (listBoxParkingForTrucks.Items.Count > 0 && index > -1 && index < listBoxParkingForTrucks.Items.Count)
             {
                 listBoxParkingForTrucks.SelectedIndex = index;
             }
@@ -81,32 +79,7 @@ namespace dump_truck_var_2
                 }
             }
         }
-        /// <summary>
-        /// Обработка нажатия кнопки "Припарковать Самосвал"
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonParckingDumpCar_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                ColorDialog dialogDop = new ColorDialog();
-                if (dialogDop.ShowDialog() == DialogResult.OK)
-                {
-                    var dumpcar = new DumpCar(100, 1000, dialog.Color, dialogDop.Color,
-                   true, true);
-                    if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] + dumpcar)>-1)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Парковка переполнена");
-                    }
-                }
-            }
-        }
+
         /// <summary>
         /// Обработка нажатия кнопки "Забрать"
         /// </summary>
@@ -114,7 +87,7 @@ namespace dump_truck_var_2
         /// <param name="e"></param>
         private void buttonTake_Click(object sender, EventArgs e)
         {
-            if (maskedTextBoxPlace.Text != "")
+            if (listBoxParkingForTrucks.SelectedIndex > -1 && maskedTextBoxPlace.Text != "")
             {
                 var dumpcar = parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
                 if (dumpcar != null)
@@ -157,6 +130,33 @@ namespace dump_truck_var_2
                     ReloadParkingForTrucks();
                 }
                 Draw();                                                             
+            }
+        }
+        private void buttonAddTruckCar_Click(object sender, EventArgs e)
+        {
+            if (listBoxParkingForTrucks.SelectedIndex > -1)
+            {
+                var formTruckCarConfig = new FormTruckCarConfig();
+                formTruckCarConfig.AddEvent(AddTruckCar);
+                formTruckCarConfig.Show();
+            }
+        }
+        /// <summary>
+        /// Метод добавления грузовика
+        /// </summary>
+        /// <param name="dumpcar"></param>
+        private void AddTruckCar(Vehicle dumpcar)
+        {
+            if (dumpcar != null && listBoxParkingForTrucks.SelectedIndex > -1)
+            {
+                if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()]) + dumpcar > -1)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Грузовик не удалось поставить");
+                }
             }
         }
     }
