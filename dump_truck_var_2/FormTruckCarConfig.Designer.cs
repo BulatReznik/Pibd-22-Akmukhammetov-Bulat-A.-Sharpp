@@ -6,7 +6,6 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -19,7 +18,6 @@
             }
             base.Dispose(disposing);
         }
-
         #region Windows Form Designer generated code
 
         /// <summary>
@@ -207,7 +205,7 @@
             // 
             // pictureBoxTruckCar
             // 
-            this.pictureBoxTruckCar.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxTruckCar.Location = new System.Drawing.Point(3, 0);
             this.pictureBoxTruckCar.Name = "pictureBoxTruckCar";
             this.pictureBoxTruckCar.Size = new System.Drawing.Size(250, 190);
             this.pictureBoxTruckCar.TabIndex = 0;
@@ -375,7 +373,6 @@
         }
 
         #endregion
-
         private System.Windows.Forms.GroupBox groupBoxPlaneType;
         private System.Windows.Forms.Label labelDumpCar;
         private System.Windows.Forms.Label labelTruckCar;

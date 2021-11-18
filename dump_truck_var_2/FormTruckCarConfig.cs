@@ -19,7 +19,7 @@ namespace dump_truck_var_2
         /// <summary>
         /// Событие
         /// </summary>
-        private event TruckCarDelegate eventAddTruckCar;
+        private Action<Vehicle> eventAddTruckCar;
         public FormTruckCarConfig()
         {
             InitializeComponent();
@@ -51,11 +51,11 @@ namespace dump_truck_var_2
         /// Добавление события
         /// </summary>
         /// <param name="ev"></param>
-        public void AddEvent(TruckCarDelegate ev)
+        public void AddEvent(Action<Vehicle> ev)
         {
             if (eventAddTruckCar == null)
             {
-                eventAddTruckCar = new TruckCarDelegate(ev);
+                eventAddTruckCar = new Action<Vehicle>(ev);
             }
             else
             {
