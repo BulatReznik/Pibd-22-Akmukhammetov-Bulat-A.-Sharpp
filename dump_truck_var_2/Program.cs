@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace dump_truck_var_2
 {
+    public delegate void Action<Vehicle>(Vehicle dumpcar);
     static class Program
     {
         /// <summary>

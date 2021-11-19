@@ -28,7 +28,7 @@ namespace dump_truck_var_2
 		/// Конструктор
 		/// </summary>
 		/// <param name="pictureWidth"></param>
-		/// <param name="pictureHeight"></param>
+		/// <param name="pictureHeight"></param> 
 		public ParkingForTrucksCollection(int pictureWidth, int pictureHeight)
 		{
 			parkingForTrucksStages = new Dictionary<string, ParkingForTrucks<Vehicle>>();

@@ -30,7 +30,7 @@ namespace dump_truck_var_2
         /// <param name="dopColor">Дополнительный цвет</param>
         /// <param name="glasses">Признак наличия стекол</param>
         /// <param name="tipperBody">Признак наличия кузова</param>
-        public DumpCar(int maxSpeed, float weight, Color mainColor, Color dopColor, bool glasses, bool tipperBody) : base(maxSpeed, weight, mainColor, 215, 150)
+        public DumpCar(int maxSpeed, float weight, Color mainColor, Color dopColor, bool glasses, bool tipperBody) : base(maxSpeed, weight, mainColor, 250, 180)
         {
             DopColor = dopColor;
             Glasses = glasses;
@@ -71,6 +71,14 @@ namespace dump_truck_var_2
                 Brush brTipperBody = new SolidBrush(DopColor);
                 g.FillPolygon(brTipperBody, curvePoints);
             }
+        }
+        /// <summary>
+        /// Смена дополнительного цвета
+        /// </summary>
+        /// <param name="color"></param>
+        public void SetDopColor(Color color)
+        {
+            DopColor = color;
         }
     }
 }
