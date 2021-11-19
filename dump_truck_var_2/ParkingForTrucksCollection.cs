@@ -23,7 +23,7 @@ namespace dump_truck_var_2
 		/// <summary>
 		/// Ширина окна отрисовки
 		/// </summary>
-		private readonly int pictureWidth;
+		private readonly int pictureWidth; 
 		/// <summary>
 		/// Высота окна отрисовки
 		/// </summary>
