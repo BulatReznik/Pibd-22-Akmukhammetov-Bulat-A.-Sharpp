@@ -37,6 +37,23 @@ namespace dump_truck_var_2
             TipperBody = tipperBody;
         }
         /// <summary>
+        /// Конструктор для загрузки с файла
+        /// </summary>
+        /// <param name="info"></param>
+        public DumpCar(string info) : base(info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 6)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                DopColor = Color.FromName(strs[3]);
+                Glasses = Convert.ToBoolean(strs[4]);
+                TipperBody = Convert.ToBoolean(strs[5]);
+            }
+        }
+        /// <summary>
         /// Отрисовка 
         /// </summary>
         /// <param name="g"></param>
@@ -79,6 +96,10 @@ namespace dump_truck_var_2
         public void SetDopColor(Color color)
         {
             DopColor = color;
+        }
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}{separator}{DopColor.Name}{separator}{Glasses}{separator}{TipperBody}";
         }
     }
 }

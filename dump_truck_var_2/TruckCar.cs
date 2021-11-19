@@ -18,6 +18,24 @@ namespace dump_truck_var_2
         /// </summary>
         private readonly int carHeight = 150;
         /// <summary>
+        /// Разделитель для записи информации по объекту в файл
+        /// </summary>
+        protected readonly char separator = ';';
+        /// <summary>
+        /// Конструктор для загрузки с файла
+        /// </summary>
+        /// <param name="info">Информация по объекту</param>
+        public TruckCar(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 3)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+            }
+        }
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="maxSpeed">Максимальная скорость</param>
@@ -101,6 +119,10 @@ namespace dump_truck_var_2
             g.DrawEllipse(pen, _startPosX, _startPosY + 100, 50, 50);
             g.DrawEllipse(pen, _startPosX + 50, _startPosY + 100, 50, 50);
             g.DrawEllipse(pen, _startPosX + 150, _startPosY + 100, 50, 50);
+        }
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
         }
     }
 }

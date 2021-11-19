@@ -16,7 +16,6 @@ namespace dump_truck_var_2
         /// Объект от класса-парковки
         /// </summary>
         private readonly ParkingForTrucksCollection parkingForTrucksCollection;
-
         public FormParkingForTrucks()
         {
             InitializeComponent();
@@ -79,7 +78,6 @@ namespace dump_truck_var_2
                 }
             }
         }
-
         /// <summary>
         /// Обработка нажатия кнопки "Забрать"
         /// </summary>
@@ -99,7 +97,6 @@ namespace dump_truck_var_2
                 Draw();
             }
         }
-
         private void listBoxParkingForTrucks_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
@@ -156,6 +153,62 @@ namespace dump_truck_var_2
                 else
                 {
                     MessageBox.Show("Грузовик не удалось поставить");
+                }
+            }
+        }
+        /// <summary>
+        /// Обработка нажатия пункта меню "Загрузить"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (parkingForTrucksCollection.LoadData(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    ReloadParkingForTrucks();
+                    Draw();
+
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+        /// <summary>
+        /// Обработка нажатия пункта меню "Сохранить"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (parkingForTrucksCollection.SaveData(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "Результат",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (parkingForTrucksCollection.SaveName(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

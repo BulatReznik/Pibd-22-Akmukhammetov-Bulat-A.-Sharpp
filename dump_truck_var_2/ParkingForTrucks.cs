@@ -42,10 +42,6 @@ namespace dump_truck_var_2
         /// </summary>
         private readonly int parkingWidth;
         /// <summary>
-        /// Размер парковки (ширина)
-        /// </summary>
-        private readonly int parkingHeight;
-        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="picWidth">Рамзер парковки - ширина</param>
@@ -53,7 +49,6 @@ namespace dump_truck_var_2
         public ParkingForTrucks(int picWidth, int picHeight)
         {
             parkingWidth = picWidth / _placeSizeWidth;
-            parkingHeight = picHeight / _placeSizeHeight;
             int width = picWidth / _placeSizeWidth;
             int height = picHeight / _placeSizeHeight;
             _maxCount = width * height;
@@ -129,6 +124,19 @@ namespace dump_truck_var_2
                 g.DrawLine(pen, i * _placeSizeWidth + 5, 10, i * _placeSizeWidth + 5,
                 (pictureHeight / _placeSizeHeight) * _placeSizeHeight + 10);
             }
+        }
+        /// <summary>
+        /// Функция получения элементы из списка
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T GetNext(int index)
+        {
+            if (index < 0 || index >= _places.Count)
+            {
+                return null;
+            }
+            return _places[index];
         }
     }
 }
