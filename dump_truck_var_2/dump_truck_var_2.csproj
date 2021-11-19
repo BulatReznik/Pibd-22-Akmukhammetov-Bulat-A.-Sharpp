@@ -53,6 +53,7 @@
       <DependentUpon>FormParkingForTrucks.cs</DependentUpon>
     </Compile>
     <Compile Include="ParkingForTrucks.cs" />
+    <Compile Include="ParkingForTrucksCollection.cs" />
     <Compile Include="TruckCar.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="DumpCar.cs" />
