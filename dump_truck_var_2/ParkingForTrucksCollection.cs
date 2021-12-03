@@ -89,7 +89,7 @@ namespace dump_truck_var_2
 		/// </summary>
 		/// <param name="filename">Путь и имя файла</param>
 		/// <returns></returns>
-		public bool SaveData(string filename)
+		public void SaveData(string filename)
 		{
 			if (File.Exists(filename))
 			{
@@ -119,18 +119,17 @@ namespace dump_truck_var_2
 					}
 				}
 			}
-			return true;
 		}
 		/// <summary>
 		/// Загрузка нформации по автомобилям на парковках из файла
 		/// </summary>
 		/// <param name="filename"></param>
 		/// <returns></returns>
-		public bool LoadData(string filename)
+		public void LoadData(string filename)
 		{
 			if (!File.Exists(filename))
 			{
-				return false;
+				throw new FileNotFoundException();
 			}
 			using (StreamReader sr = new StreamReader(filename))
 			{
@@ -141,8 +140,8 @@ namespace dump_truck_var_2
 				}
 				else
 				{
-					//если нет такой записи, то это не те данные
-					return false;
+					//если нет такой записи, то это не те данные - выводим исключение
+					throw new FormatException("Неверный формат файла");
 
 				}
 				Vehicle dumpcar = null;
@@ -169,18 +168,13 @@ namespace dump_truck_var_2
 					{
 						dumpcar = new DumpCar(line.Split(separator)[1]);
 					}
-					if (!parkingForTrucksStages.ContainsKey(key))
-					{
-						return false;
-					}
 					var result = parkingForTrucksStages[key] + dumpcar;
 					if (result == -1)
 					{
-						return false;
+						throw new TypeLoadException("Не удалось загрузить грузовик на парковку");
 					}
 				}
 			}
-			return true;
 		}
 	}
 }
