@@ -65,15 +65,12 @@ namespace dump_truck_var_2
         /// <returns></returns>
         public static int operator +(ParkingForTrucks<T> p, T dumpcar)
         {
-            if (p._places.Count < p._maxCount)
+            if (p._places.Count >= p._maxCount)
             {
-                p._places.Add(dumpcar);
-                return p._places.Count - 1;
+                throw new ParkingForTrucksOverflowException();
             }
-            else
-            {
-                return -1;
-            }
+            p._places.Add(dumpcar);
+            return p._places.Count - 1;
         }
         /// <summary>
         /// Перегрузка оператора вычитания
@@ -83,16 +80,14 @@ namespace dump_truck_var_2
         /// <param name="index">Индекс места, с которого пытаемся извлечь объект</param /// <returns></returns>
         public static T operator -(ParkingForTrucks<T> p, int index)
         {
-            if (index > -1 && index < p._places.Count)
+            if (index <= -1 || index >= p._places.Count)
             {
-                T bufTruckCar = p._places[index];
-                p._places.RemoveAt(index);
-                return bufTruckCar;
+                throw new ParkingForTrucksNotFoundException(index);
             }
-            else
-            {
-                return null;
-            }
+            T bufTruckCar = p._places[index];
+            p._places.RemoveAt(index);
+            return bufTruckCar;
+
         }
         /// <summary>
         /// Метод отрисовки парковки

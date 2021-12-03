@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 
 namespace dump_truck_var_2
 {
@@ -16,10 +11,17 @@ namespace dump_truck_var_2
         /// Объект от класса-парковки
         /// </summary>
         private readonly ParkingForTrucksCollection parkingForTrucksCollection;
+
+        /// <summary>
+        /// Логгер
+        /// </summary>
+        private readonly Logger logger;
+
         public FormParkingForTrucks()
         {
             InitializeComponent();
             parkingForTrucksCollection = new ParkingForTrucksCollection(pictureBoxParking.Width, pictureBoxParking.Height);
+            logger = LogManager.GetCurrentClassLogger();
             Draw();
         }
 
@@ -87,18 +89,33 @@ namespace dump_truck_var_2
         {
             if (listBoxParkingForTrucks.SelectedIndex > -1 && maskedTextBoxPlace.Text != "")
             {
-                var dumpcar = parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
-                if (dumpcar != null)
+                try
                 {
-                    FormDumpCar form = new FormDumpCar();
-                    form.SetDumpCar(dumpcar);
-                    form.ShowDialog();
+                    var dumpcar = parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()] - Convert.ToInt32(maskedTextBoxPlace.Text);
+                    if (dumpcar != null)
+                    {
+                        FormDumpCar form = new FormDumpCar();
+                        form.SetDumpCar(dumpcar);
+                        form.ShowDialog();
+                        logger.Info($"Изъят грузовик {dumpcar} с места{ maskedTextBoxPlace.Text}");
+                    }
+                    Draw();
                 }
-                Draw();
+                catch (ParkingForTrucksNotFoundException ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Не найден", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         private void listBoxParkingForTrucks_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли на парковку{ listBoxParkingForTrucks.SelectedItem.ToString()}");
             Draw();
         }
         /// <summary>
@@ -111,6 +128,7 @@ namespace dump_truck_var_2
                 MessageBox.Show("Введите название парковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            logger.Info($"Добавили парковку {textBoxNewParkingForTrucks.Text}");
             parkingForTrucksCollection.AddParkingForTrucks(textBoxNewParkingForTrucks.Text);
             ReloadParkingForTrucks();
         }
@@ -123,6 +141,7 @@ namespace dump_truck_var_2
             {
                 if (MessageBox.Show($"Удалить парковку { listBoxParkingForTrucks.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    logger.Info($"Удалили парковку{ listBoxParkingForTrucks.SelectedItem.ToString()}");
                     parkingForTrucksCollection.DelParkingForTrucks(listBoxParkingForTrucks.SelectedItem.ToString());
                     ReloadParkingForTrucks();
                 }
@@ -146,13 +165,26 @@ namespace dump_truck_var_2
         {
             if (dumpcar != null && listBoxParkingForTrucks.SelectedIndex > -1)
             {
-                if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()]) + dumpcar > -1)
+                try
                 {
-                    Draw();
+                    if ((parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()]) + dumpcar > -1)
+                    {
+                        Draw();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Грузовик не удалось поставить");
+                    }
                 }
-                else
+                catch (ParkingForTrucksOverflowException ex)
                 {
-                    MessageBox.Show("Грузовик не удалось поставить");
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -165,16 +197,28 @@ namespace dump_truck_var_2
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (parkingForTrucksCollection.LoadData(openFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    parkingForTrucksCollection.LoadData(openFileDialog.FileName);
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadParkingForTrucks();
                     Draw();
-
                 }
-                else
+                catch (FormatException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Ошибка формата", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (ParkingForTrucksOverflowException ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Переполнение при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -187,13 +231,16 @@ namespace dump_truck_var_2
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (parkingForTrucksCollection.SaveData(saveFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Сохранение прошло успешно", "Результат",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    parkingForTrucksCollection.SaveData(saveFileDialog.FileName);
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -202,13 +249,28 @@ namespace dump_truck_var_2
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (parkingForTrucksCollection.SaveName(saveFileDialog.FileName))
+                try
                 {
-                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    parkingForTrucksCollection.LoadData(openFileDialog.FileName);
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
+                    ReloadParkingForTrucks();
+                    Draw();
                 }
-                else
+                catch (FormatException ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Ошибка формата", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (ParkingForTrucksOverflowException ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Переполнение при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch (Exception ex)
+                {
+                    logger.Warn(ex);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
