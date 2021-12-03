@@ -9,7 +9,7 @@ namespace dump_truck_var_2
     {
         /// <summary>
         /// Объект от класса-парковки
-        /// </summary>
+        /// </summary> 
         private readonly ParkingForTrucksCollection parkingForTrucksCollection;
 
         /// <summary>
