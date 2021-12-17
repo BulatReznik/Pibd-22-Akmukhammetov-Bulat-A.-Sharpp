@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections;
 
 namespace dump_truck_var_2
 {
@@ -11,7 +12,8 @@ namespace dump_truck_var_2
     /// Параметризованный класс для хранения набора объектов от интерфейса ITransport
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    class ParkingForTrucks<T> where T : class, ITransport
+    class ParkingForTrucks<T> :IEnumerator<T>, IEnumerable<T>
+        where T : class, ITransport
     {
         /// <summary> 
         /// Список объектов, которые храним 
@@ -42,6 +44,12 @@ namespace dump_truck_var_2
         /// </summary>
         private readonly int parkingWidth;
         /// <summary>
+        /// Текущий элемент для вывода через IEnumerator (будет обращаться по своему индексу к ключу словаря, по которму будет возвращаться запись)
+        /// </summary>
+        int _currentIndex;
+        public T Current => _places[_currentIndex];
+        object IEnumerator.Current => _places[_currentIndex];
+        /// <summary>
         /// Конструктор
         /// </summary>
         /// <param name="picWidth">Рамзер парковки - ширина</param>
@@ -55,6 +63,7 @@ namespace dump_truck_var_2
             pictureWidth = picWidth;
             pictureHeight = picHeight;
             _places = new List<T>();
+            _currentIndex = -1;
         }
         /// <summary>
         /// Перегрузка оператора сложения
@@ -68,6 +77,10 @@ namespace dump_truck_var_2
             if (p._places.Count >= p._maxCount)
             {
                 throw new ParkingForTrucksOverflowException();
+            }
+            if (p._places.Contains(dumpcar)) 
+            {
+                throw new ParkingForTrucksAlreadyHaveException();
             }
             p._places.Add(dumpcar);
             return p._places.Count - 1;
@@ -132,6 +145,51 @@ namespace dump_truck_var_2
                 return null;
             }
             return _places[index];
+        }
+        /// <summary>
+        /// Сортировка автомобилей на парковке
+        /// </summary>
+        public void Sort() => _places.Sort((IComparer<T>)new TruckCarComparer());
+        /// <summary>
+        /// Метод интерфейса IEnumerator, вызываемый при удалении объекта
+        /// </summary>
+        public void Dispose(){}
+        /// <summary>
+        /// Метод интерфейса IEnumerator для перехода к следующему элементу или началу коллекции
+        /// </summary>
+        /// <returns></returns>
+        public bool MoveNext()
+        {
+            if (_currentIndex < _maxCount - 1)
+            {
+                _currentIndex += 1;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerator для сброса и возврата к началу коллекции
+        /// </summary>
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+        /// <summary>
+        /// Метод интерфейса IEnumerable
+        /// </summary>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }

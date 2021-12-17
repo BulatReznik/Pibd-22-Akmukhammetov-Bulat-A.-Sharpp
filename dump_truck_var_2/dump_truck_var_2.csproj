@@ -67,6 +67,7 @@
       <DependentUpon>FormTruckCarConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="ParkingForTrucks.cs" />
+    <Compile Include="ParkingForTrucksAlreadyHaveException.cs" />
     <Compile Include="ParkingForTrucksCollection.cs" />
     <Compile Include="ParkingForTrucksNotFoundException.cs" />
     <Compile Include="ParkingForTrucksOverflowException.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="ITransport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TruckCarComparer.cs" />
     <Compile Include="Vehicle.cs" />
     <EmbeddedResource Include="FormDumpCar.resx">
       <DependentUpon>FormDumpCar.cs</DependentUpon>
