@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace dump_truck_var_2
 {
@@ -20,10 +21,10 @@ namespace dump_truck_var_2
 		/// Возвращение списка названий праковок
 		/// </summary>
 		public List<string> Keys => parkingForTrucksStages.Keys.ToList();
-		/// <summary>
-		/// Ширина окна отрисовки
-		/// </summary>
-		private readonly int pictureWidth; 
+        /// <summary>
+        /// Ширина окна отрисовки
+        /// </summary>
+        private readonly int pictureWidth; 
 		/// <summary>
 		/// Высота окна отрисовки
 		/// </summary>
@@ -32,12 +33,12 @@ namespace dump_truck_var_2
 		/// Разделитель для записи информации в файл
 		/// </summary>
 		private readonly char separator = ':';
-		/// <summary>
-		/// Конструктор
-		/// </summary>
-		/// <param name="pictureWidth"></param>
-		/// <param name="pictureHeight"></param> 
-		public ParkingForTrucksCollection(int pictureWidth, int pictureHeight)
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="pictureWidth"></param>
+        /// <param name="pictureHeight"></param> 
+        public ParkingForTrucksCollection(int pictureWidth, int pictureHeight)
 		{
 			parkingForTrucksStages = new Dictionary<string, ParkingForTrucks<Vehicle>>();
 			this.pictureWidth = pictureWidth;
@@ -101,21 +102,17 @@ namespace dump_truck_var_2
 				foreach (var level in parkingForTrucksStages)
 				{
 					sw.Write($"ParkingForTrucks{separator}{level.Key}{Environment.NewLine}");
-					ITransport dumpcar = null;
-					for (int i = 0; (dumpcar = level.Value.GetNext(i)) != null; i++)
+					foreach (ITransport dumpcar in level.Value)
 					{
-						if (dumpcar != null)
+						if (dumpcar.GetType().Name == "TruckCar")
 						{
-							if (dumpcar.GetType().Name == "TruckCar")
-							{
-								sw.Write($"TruckCar{separator}");
-							}
-							if (dumpcar.GetType().Name == "DumpCar")
-							{
-								sw.Write($"DumpCar{separator}");
-							}
-							sw.Write(dumpcar + Environment.NewLine);
+							sw.Write($"TruckCar{separator}");
 						}
+						if (dumpcar.GetType().Name == "DumpCar")
+						{
+							sw.Write($"DumpCar{separator}");
+						}
+						sw.Write(dumpcar + Environment.NewLine);
 					}
 				}
 			}
@@ -176,5 +173,7 @@ namespace dump_truck_var_2
 				}
 			}
 		}
-	}
+
+   
+    }
 }

@@ -11,12 +11,10 @@ namespace dump_truck_var_2
         /// Объект от класса-парковки
         /// </summary> 
         private readonly ParkingForTrucksCollection parkingForTrucksCollection;
-
         /// <summary>
         /// Логгер
         /// </summary>
         private readonly Logger logger;
-
         public FormParkingForTrucks()
         {
             InitializeComponent();
@@ -24,7 +22,6 @@ namespace dump_truck_var_2
             logger = LogManager.GetCurrentClassLogger();
             Draw();
         }
-
         /// <summary>
         /// Заполнение listBoxLevels
         /// </summary>
@@ -45,7 +42,6 @@ namespace dump_truck_var_2
                 listBoxParkingForTrucks.SelectedIndex = index;
             }
         }
-
         /// <summary>
         /// Метод отрисовки парковки
         /// </summary>
@@ -145,7 +141,7 @@ namespace dump_truck_var_2
                     parkingForTrucksCollection.DelParkingForTrucks(listBoxParkingForTrucks.SelectedItem.ToString());
                     ReloadParkingForTrucks();
                 }
-                Draw();                                                             
+                Draw();
             }
         }
         private void buttonAddTruckCar_Click(object sender, EventArgs e)
@@ -272,6 +268,20 @@ namespace dump_truck_var_2
                     logger.Warn(ex);
                     MessageBox.Show(ex.Message, "Неизвестная ошибка при загрузке", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+        /// <summary>
+        /// Обработка нажатия кнопки сортировки
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSort_Click(object sender, EventArgs e)
+        {
+            if (listBoxParkingForTrucks.SelectedIndex > -1)
+            {
+                parkingForTrucksCollection[listBoxParkingForTrucks.SelectedItem.ToString()].Sort();
+                Draw();
+                logger.Info("Сортировка грузовиков на парковке");
             }
         }
     }

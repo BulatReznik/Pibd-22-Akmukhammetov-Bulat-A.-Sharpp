@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dump_truck_var_2
 {
-    public class TruckCar : Vehicle
+    public class TruckCar : Vehicle, IEquatable<TruckCar>
     {
         /// <summary>
         /// Ширина отрисовки грузовика
@@ -123,6 +123,55 @@ namespace dump_truck_var_2
         public override string ToString()
         {
             return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}";
+        }
+        /// <summary>
+        /// Метод интерфейса IEquatable для класса Car
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(TruckCar other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Перегрузка метода от object
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is TruckCar))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals((TruckCar)obj);
+            }
         }
     }
 }
